@@ -1,54 +1,15 @@
+/**
+ * Custom node component for the cloud infrastructure graph
+ */
+
 import { memo } from 'react';
 import { Handle, Position } from 'reactflow';
-import { 
-  AlertTriangle, 
-  SlidersVertical, 
-  Cloud, 
-  Database, 
-  HardDrive, 
-  Globe, 
-  Server 
-} from 'lucide-react';
+import { AlertTriangle, SlidersVertical } from 'lucide-react';
 
-interface CustomNodeData {
-  label: string;
-  alerts: number;
-  misconfigs: number;
-  type: string;
-  children?: string[];
-  activeFilter?: 'all' | 'alerts' | 'misconfigurations';
-}
+import { getNodeIcon } from '../../utils/iconResolver';
+import type { CustomNodeProps } from '../../types';
 
-interface CustomNodeProps {
-  data: CustomNodeData;
-}
-
-const getNodeIcon = (type: string, label: string) => {
-  const iconProps = { size: 20, className: "node-icon" };
-  
-  switch (type) {
-    case 'cloud':
-      return <Cloud {...iconProps} />;
-    case 'aws':
-      return <Server {...iconProps} />;
-    case 'gcp':
-      return <Globe {...iconProps} />;
-    case 'saas':
-      return <Cloud {...iconProps} />;
-    case 'service':
-      // Use different icons based on service name
-      if (label.toLowerCase().includes('s3')) {
-        return <HardDrive {...iconProps} />;
-      } else if (label.toLowerCase().includes('rds')) {
-        return <Database {...iconProps} />;
-      }
-      return <Server {...iconProps} />;
-    default:
-      return <Server {...iconProps} />;
-  }
-};
-
-const CustomNode = memo(({ data }: CustomNodeProps) => {
+const CustomNode = memo(({ data, id }: CustomNodeProps) => {
   const hasChildren = data.children && data.children.length > 0;
 
   return (
@@ -66,7 +27,7 @@ const CustomNode = memo(({ data }: CustomNodeProps) => {
         
         <div className="node-content">
           <div className="node-icon-container">
-            {getNodeIcon(data.type, data.label)}
+            {getNodeIcon(data.type, data.label, id)}
           </div>
           
           {hasChildren && (

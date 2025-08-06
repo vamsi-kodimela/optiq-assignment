@@ -1,3 +1,6 @@
+/**
+ * Main graph component that renders the cloud infrastructure visualization
+ */
 
 import ReactFlow, {
   Background,
@@ -9,11 +12,10 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
-import CustomNode from './CustomNode';
-import FilterControls from './FilterControls';
-import useGraphData from './useGraphData';
+import CustomNode from '../nodes/CustomNode';
+import FilterControls from '../controls/FilterControls';
+import useGraphData from '../../hooks/useGraphData';
 
-// Define custom node types
 const nodeTypes = {
   custom: CustomNode,
 };
@@ -69,29 +71,29 @@ const FlowContent = () => {
         <Controls showInteractive={false} />
       </Panel>
       <MiniMap
-          nodeStrokeColor={(n) => {
-            switch (n.data?.type) {
-              case 'cloud': return '#0ea5e9';
-              case 'aws': return '#ff9500';
-              case 'gcp': return '#4285f4';
-              case 'saas': return '#10b981';
-              case 'service': return '#6b7280';
-              default: return '#94a3b8';
-            }
-          }}
-          nodeColor={(n) => {
-            switch (n.data?.type) {
-              case 'cloud': return '#e0f2fe';
-              case 'aws': return '#fed7aa';
-              case 'gcp': return '#dbeafe';
-              case 'saas': return '#d1fae5';
-              case 'service': return '#f3f4f6';
-              default: return '#f8fafc';
-            }
-          }}
-          nodeBorderRadius={8}
-        />
-      </ReactFlow>
+        nodeStrokeColor={(n) => {
+          switch (n.data?.type) {
+            case 'cloud': return '#0ea5e9';
+            case 'aws': return '#ff9500';
+            case 'gcp': return '#4285f4';
+            case 'saas': return '#10b981';
+            case 'service': return '#6b7280';
+            default: return '#94a3b8';
+          }
+        }}
+        nodeColor={(n) => {
+          switch (n.data?.type) {
+            case 'cloud': return '#e0f2fe';
+            case 'aws': return '#fed7aa';
+            case 'gcp': return '#dbeafe';
+            case 'saas': return '#d1fae5';
+            case 'service': return '#f3f4f6';
+            default: return '#f8fafc';
+          }
+        }}
+        nodeBorderRadius={8}
+      />
+    </ReactFlow>
   );
 };
 

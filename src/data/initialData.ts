@@ -1,16 +1,10 @@
-export interface NodeData {
-  id: string;
-  label: string;
-  type: string;
-  alerts: number;
-  misconfigs: number;
-  children?: string[];
-}
+/**
+ * Initial data configuration for the cloud infrastructure graph
+ */
 
-export interface EdgeData {
-  source: string;
-  target: string;
-}
+import type { NodeData, EdgeData } from '../types';
+
+export type { NodeData, EdgeData };
 
 export const initialData = {
   nodes: [

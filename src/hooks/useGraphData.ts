@@ -1,19 +1,14 @@
+/**
+ * Custom hook for managing graph data, layout, and filtering logic
+ */
+
 import { useState, useMemo, useCallback } from 'react';
 import type { Node, Edge, NodeChange, OnNodesChange } from 'reactflow';
 import { MarkerType, applyNodeChanges } from 'reactflow';
 import dagre from 'dagre';
-import { initialData, type NodeData } from './initial-data';
 
-export type FilterType = 'all' | 'alerts' | 'misconfigurations';
-
-interface CustomNodeData {
-  label: string;
-  alerts: number;
-  misconfigs: number;
-  type: string;
-  children?: string[];
-  activeFilter?: FilterType;
-}
+import { initialData } from '../data/initialData';
+import type { FilterType, CustomNodeData, FilterStats, NodeData } from '../types';
 
 const useGraphData = () => {
   // State for all nodes and edges (source of truth)
@@ -26,21 +21,21 @@ const useGraphData = () => {
   // State for positioned nodes (includes user dragging)
   const [positionedNodes, setPositionedNodes] = useState<Node<CustomNodeData>[]>([]);
   
-  // State for filter
+  // State for active filter
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
 
-  // Generate initial layout using dagre (computed once)
+  // Generate initial layout using dagre
   const initialLayoutedNodes = useMemo(() => {
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
     dagreGraph.setGraph({ rankdir: 'LR', nodesep: 100, ranksep: 150 });
 
-    // Add nodes to dagre
+    // Add nodes to dagre graph
     allNodes.forEach((node) => {
       dagreGraph.setNode(node.id, { width: 200, height: 80 });
     });
 
-    // Add edges to dagre
+    // Add edges to dagre graph
     allEdges.forEach((edge) => {
       dagreGraph.setEdge(edge.source, edge.target);
     });
@@ -76,9 +71,9 @@ const useGraphData = () => {
     }
 
     return layouted;
-  }, [allNodes, allEdges, positionedNodes.length]);
+  }, [allNodes, allEdges, positionedNodes.length, activeFilter]);
 
-  // Convert edges to ReactFlow format
+  // Generate edges with styling
   const layoutedEdges = useMemo((): Edge[] => {
     return allEdges.map((edge, index) => ({
       id: `e${index}`,
@@ -100,7 +95,7 @@ const useGraphData = () => {
     }));
   }, [allEdges]);
 
-  // Handle node position changes from dragging
+  // Handle node position changes (dragging)
   const onNodesChange: OnNodesChange = useCallback((changes: NodeChange[]) => {
     setPositionedNodes((nodes) => applyNodeChanges(changes, nodes));
   }, []);
@@ -149,31 +144,30 @@ const useGraphData = () => {
       }
     };
 
+    // Find all nodes that should be hidden due to collapsed parents
     collapsedNodeIds.forEach(findHiddenNodes);
 
-    // Filter visible nodes (both filter and collapse states)
+    // Filter out hidden nodes
     const visibleNodes = filteredNodes.filter(node => !hiddenNodeIds.has(node.id));
 
-    // Filter visible edges (both source and target must be visible)
+    // Filter edges to only show connections between visible nodes
     const visibleNodeIds = new Set(visibleNodes.map(node => node.id));
     const visibleEdges = layoutedEdges.filter(edge => 
       visibleNodeIds.has(edge.source) && visibleNodeIds.has(edge.target)
     );
 
     return { visibleNodes, visibleEdges };
-  }, [positionedNodes, initialLayoutedNodes, layoutedEdges, collapsedNodeIds, allNodes, filterNodes]);
+  }, [positionedNodes, initialLayoutedNodes, layoutedEdges, collapsedNodeIds, allNodes, filterNodes, activeFilter]);
 
-  // Handle node click for collapse/expand
+  // Create node click handler
   const createOnNodeClick = useCallback((fitViewFn?: () => void) => {
     return (_event: React.MouseEvent, node: Node<CustomNodeData>) => {
-      // Only handle nodes that have children
       if (node.data.children && node.data.children.length > 0) {
         setCollapsedNodeIds(prev => {
           const newCollapsedIds = prev.includes(node.id)
-            ? prev.filter(id => id !== node.id) // Remove from collapsed (expand)
-            : [...prev, node.id]; // Add to collapsed (collapse)
+            ? prev.filter(id => id !== node.id)
+            : [...prev, node.id];
           
-          // Auto-fit the view after state change
           if (fitViewFn) {
             setTimeout(() => {
               fitViewFn();
@@ -187,7 +181,7 @@ const useGraphData = () => {
   }, []);
 
   // Calculate filter statistics
-  const filterStats = useMemo(() => {
+  const filterStats: FilterStats = useMemo(() => {
     const currentNodes = positionedNodes.length > 0 ? positionedNodes : initialLayoutedNodes;
     
     return {
@@ -197,7 +191,7 @@ const useGraphData = () => {
     };
   }, [positionedNodes, initialLayoutedNodes]);
 
-  // Handle filter changes
+  // Handle filter change
   const handleFilterChange = useCallback((filter: FilterType) => {
     setActiveFilter(filter);
   }, []);

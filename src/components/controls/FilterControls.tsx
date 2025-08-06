@@ -1,14 +1,10 @@
+/**
+ * Filter controls component for the cloud infrastructure graph
+ */
+
 import { memo } from 'react';
 
-export type FilterType = 'all' | 'alerts' | 'misconfigurations';
-
-interface FilterControlsProps {
-  activeFilter: FilterType;
-  onFilterChange: (filter: FilterType) => void;
-  alertCount: number;
-  misconfigCount: number;
-  totalCount: number;
-}
+import type { FilterType, FilterControlsProps } from '../../types';
 
 const FilterControls = memo(({ 
   activeFilter, 
