@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Handle, Position } from 'reactflow';
 import { 
   AlertTriangle, 
-  Settings, 
+  SlidersVertical, 
   Cloud, 
   Database, 
   HardDrive, 
@@ -92,7 +92,7 @@ const CustomNode = memo(({ data }: CustomNodeProps) => {
       
       {data.misconfigs > 0 && (data.activeFilter === 'all' || data.activeFilter === 'misconfigurations') && (
         <div className="floating-badge misconfigs-badge" title={`${data.misconfigs} misconfigurations`}>
-          <Settings size={10} />
+          <SlidersVertical size={10} />
           <span>{data.misconfigs}</span>
         </div>
       )}
