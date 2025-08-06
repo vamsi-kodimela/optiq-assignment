@@ -43,18 +43,33 @@ const CustomNode = memo(({ data, id }: CustomNodeProps) => {
         />
       </div>
       
-      {/* Floating badges - show based on active filter */}
-      {data.alerts > 0 && (data.activeFilter === 'all' || data.activeFilter === 'alerts') && (
-        <div className="floating-badge alerts-badge" title={`${data.alerts} alerts`}>
-          <AlertTriangle size={10} />
-          <span>{data.alerts}</span>
-        </div>
-      )}
-      
-      {data.misconfigs > 0 && (data.activeFilter === 'all' || data.activeFilter === 'misconfigurations') && (
-        <div className="floating-badge misconfigs-badge" title={`${data.misconfigs} misconfigurations`}>
-          <SlidersVertical size={10} />
-          <span>{data.misconfigs}</span>
+      {/* Combined floating badge */}
+      {((data.alerts > 0 && (data.activeFilter === 'all' || data.activeFilter === 'alerts')) ||
+        (data.misconfigs > 0 && (data.activeFilter === 'all' || data.activeFilter === 'misconfigurations'))) && (
+        <div 
+          className="floating-badge combined-badge" 
+          title={`${data.alerts} alerts, ${data.misconfigs} misconfigurations`}
+        >
+          {/* Show alerts section if applicable */}
+          {data.alerts > 0 && (data.activeFilter === 'all' || data.activeFilter === 'alerts') && (
+            <>
+              <AlertTriangle size={10} />
+              <span>{data.alerts}</span>
+            </>
+          )}
+          
+          {/* Show separator if both sections are visible */}
+          {data.alerts > 0 && data.misconfigs > 0 && data.activeFilter === 'all' && (
+            <span className="badge-separator">|</span>
+          )}
+          
+          {/* Show misconfigs section if applicable */}
+          {data.misconfigs > 0 && (data.activeFilter === 'all' || data.activeFilter === 'misconfigurations') && (
+            <>
+              <SlidersVertical size={10} />
+              <span>{data.misconfigs}</span>
+            </>
+          )}
         </div>
       )}
     </div>
