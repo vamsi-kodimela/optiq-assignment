@@ -33,7 +33,7 @@ const useGraphData = () => {
   const initialLayoutedNodes = useMemo(() => {
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
-    dagreGraph.setGraph({ rankdir: 'LR', nodesep: 100, ranksep: 150 });
+    dagreGraph.setGraph({ rankdir: 'LR', nodesep: 120, ranksep: 180 });
 
     // Add nodes to dagre graph
     allNodes.forEach((node) => {
