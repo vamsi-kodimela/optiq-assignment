@@ -1,21 +1,5 @@
 # Cloud Nodes Visualization
 
-![Cloud Risk Visualization](https://img.shields.io/badge/React-18+-blue?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue?logo=typescript)
-![ReactFlow](https://img.shields.io/badge/ReactFlow-11+-green?logo=react)
-
-## 🚀 Features
-
-- **Interactive Hierarchical Graph**: Visualize cloud infrastructure relationships
-- **Collapsible Nodes**: Expand/collapse parent nodes to manage complexity
-- **Advanced Filtering**: Filter by alerts, misconfigurations, or view all
-- **Real-time Metrics**: Display alert and misconfiguration counts with badges
-- **Responsive Design**: Works seamlessly across desktop and mobile devices
-- **Modern UI**: Clean white backgrounds with colored outline icons
-- **Brand Integration**: Official AWS and GCP logos for provider nodes
-- **Modular CSS Architecture**: Organized, maintainable stylesheets with 28% size reduction
-- **Performance Optimized**: Lean codebase with unnecessary styles removed
-
 ## 📋 Setup Instructions
 
 ### Prerequisites
@@ -172,36 +156,6 @@ Advanced filtering allows users to focus on specific types of issues:
 - Collapsed nodes remain collapsed when switching filters
 - Filter changes don't affect node hierarchy relationships
 - Performance optimized with `useMemo` for combined operations
-
-## 🏗️ Project Structure
-
-```
-src/
-├── components/           # React components
-│   ├── Graph/           # Main graph component
-│   ├── nodes/           # Custom node components
-│   ├── controls/        # Filter and control components
-│   └── index.ts         # Component exports
-├── hooks/               # Custom React hooks
-│   └── useGraphData.ts  # Graph state management
-├── utils/               # Utility functions
-│   └── iconResolver.tsx # Icon resolution logic
-├── types/               # TypeScript type definitions
-│   └── node.types.ts    # Node and graph types
-├── constants/           # Application constants
-│   └── icons.ts         # Icon-related constants
-├── data/               # Static data
-│   └── initialData.ts   # Initial graph data
-└── styles/             # Modular CSS architecture
-    ├── index.css        # Main CSS entry point
-    ├── global.css       # Global styles and fonts
-    ├── app-layout.css   # Application layout
-    ├── node.css         # Node component styles
-    ├── filter-controls.css # Filter controls
-    ├── react-flow.css   # React Flow customizations
-    ├── responsive.css   # Mobile responsive styles
-    └── README.md        # CSS architecture documentation
-```
 
 ## 🛠️ Technologies Used
 
