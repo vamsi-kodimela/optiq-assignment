@@ -2,6 +2,7 @@
  * Icon resolution utility for dynamic node icon selection
  */
 
+import React from 'react';
 import { 
   Cloud, 
   Database, 
@@ -20,7 +21,12 @@ import {
 import { ICON_SIZE, NODE_TYPES, SERVICE_KEYWORDS, ROOT_NODE_ID } from '../constants/icons';
 
 // Logo components
-const AwsLogo = ({ size = ICON_SIZE.DEFAULT, className = "" }) => (
+interface LogoProps {
+  size?: number;
+  className?: string;
+}
+
+const AwsLogo: React.FC<LogoProps> = ({ size = ICON_SIZE.DEFAULT, className = "" }) => (
   <img
     src="/assets/logos/aws-logo.svg"
     alt="AWS"
@@ -31,7 +37,7 @@ const AwsLogo = ({ size = ICON_SIZE.DEFAULT, className = "" }) => (
   />
 );
 
-const GcpLogo = ({ size = ICON_SIZE.DEFAULT, className = "" }) => (
+const GcpLogo: React.FC<LogoProps> = ({ size = ICON_SIZE.DEFAULT, className = "" }) => (
   <img
     src="/assets/logos/gcp-logo.svg"
     alt="GCP"
@@ -50,7 +56,7 @@ interface IconProps {
 /**
  * Resolves the appropriate icon based on node type, label, and ID
  */
-export const getNodeIcon = (type: string, label: string, nodeId?: string): JSX.Element => {
+export const getNodeIcon = (type: string, label: string, nodeId?: string): React.ReactElement => {
   const iconProps: IconProps = { size: ICON_SIZE.DEFAULT, className: "node-icon" };
   const labelLower = label.toLowerCase();
   
@@ -103,7 +109,7 @@ export const getNodeIcon = (type: string, label: string, nodeId?: string): JSX.E
 /**
  * Get icon for SaaS applications
  */
-const getSaaSIcon = (labelLower: string, iconProps: IconProps): JSX.Element => {
+const getSaaSIcon = (labelLower: string, iconProps: IconProps): React.ReactElement => {
   if (SERVICE_KEYWORDS.OFFICE.some(keyword => labelLower.includes(keyword))) {
     return <MonitorSpeaker {...iconProps} />;
   }
@@ -116,7 +122,7 @@ const getSaaSIcon = (labelLower: string, iconProps: IconProps): JSX.Element => {
 /**
  * Get icon for various services based on keywords
  */
-const getServiceIcon = (labelLower: string, iconProps: IconProps): JSX.Element => {
+const getServiceIcon = (labelLower: string, iconProps: IconProps): React.ReactElement => {
   // Storage services
   if (SERVICE_KEYWORDS.STORAGE.some(keyword => labelLower.includes(keyword))) {
     return <HardDrive {...iconProps} />;
@@ -159,7 +165,7 @@ const getServiceIcon = (labelLower: string, iconProps: IconProps): JSX.Element =
 /**
  * Get default icon based on label patterns
  */
-const getDefaultIcon = (labelLower: string, iconProps: IconProps): JSX.Element => {
+const getDefaultIcon = (labelLower: string, iconProps: IconProps): React.ReactElement => {
   if (labelLower.includes('cloud')) {
     return <Cloud {...iconProps} />;
   }
