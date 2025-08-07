@@ -13,6 +13,7 @@ import "reactflow/dist/style.css";
 
 import CustomNode from "../nodes/CustomNode";
 import FilterControls from "../controls/FilterControls";
+import DataEditor from "../editor/DataEditor";
 import useGraphData from "../../hooks/useGraphData";
 
 const nodeTypes = {
@@ -29,6 +30,9 @@ const FlowContent = () => {
     activeFilter,
     onFilterChange,
     filterStats,
+    updateGraphData,
+    resetGraphData,
+    getCurrentGraphData,
   } = useGraphData();
 
   const handleFitView = () => {
@@ -68,6 +72,13 @@ const FlowContent = () => {
       </Panel>
       <Panel position="top-right">
         <Controls showInteractive={false} />
+      </Panel>
+      <Panel position="bottom-left">
+        <DataEditor
+          data={getCurrentGraphData()}
+          onDataChange={updateGraphData}
+          onReset={resetGraphData}
+        />
       </Panel>
     </ReactFlow>
   );

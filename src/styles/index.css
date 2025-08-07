@@ -10,6 +10,7 @@
 /* Component-specific styles */
 @import './node.css';
 @import './filter-controls.css';
+@import './data-editor.css';
 @import './react-flow.css';
 
 /* Responsive styles last */

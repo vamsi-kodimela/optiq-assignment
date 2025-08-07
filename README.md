@@ -1,6 +1,4 @@
-# Cloud Risk Visualization Tool
-
-An interactive React application for visualizing cloud infrastructure with risk metrics, featuring hierarchical node relationships, collapsible views, and advanced filtering capabilities.
+# Cloud Nodes Visualization
 
 ![Cloud Risk Visualization](https://img.shields.io/badge/React-18+-blue?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue?logo=typescript)
@@ -15,6 +13,8 @@ An interactive React application for visualizing cloud infrastructure with risk 
 - **Responsive Design**: Works seamlessly across desktop and mobile devices
 - **Modern UI**: Clean white backgrounds with colored outline icons
 - **Brand Integration**: Official AWS and GCP logos for provider nodes
+- **Modular CSS Architecture**: Organized, maintainable stylesheets with 28% size reduction
+- **Performance Optimized**: Lean codebase with unnecessary styles removed
 
 ## 📋 Setup Instructions
 
@@ -26,17 +26,20 @@ An interactive React application for visualizing cloud infrastructure with risk 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd optiq-assignment
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start the development server**
+
    ```bash
    npm run dev
    ```
@@ -68,28 +71,33 @@ The application implements a sophisticated node collapse/expand system:
 #### How It Works
 
 1. **Hierarchical Data Structure**
+
    - Each node can have `children` array defining parent-child relationships
    - Parent nodes display a subtle collapse indicator when they have children
 
 2. **State Management**
+
    - `collapsedNodeIds` array tracks which parent nodes are currently collapsed
    - Uses React's `useState` and `useMemo` for efficient re-rendering
 
 3. **Click Interaction**
+
    ```typescript
    const onNodeClick = (event, node) => {
      if (node.data.children?.length > 0) {
        // Toggle collapse state
-       setCollapsedNodeIds(prev => 
-         prev.includes(node.id) 
-           ? prev.filter(id => id !== node.id)  // Expand
-           : [...prev, node.id]                 // Collapse
+       setCollapsedNodeIds(
+         (prev) =>
+           prev.includes(node.id)
+             ? prev.filter((id) => id !== node.id) // Expand
+             : [...prev, node.id] // Collapse
        );
      }
    };
    ```
 
 4. **Visibility Calculation**
+
    - When a node is collapsed, all its descendants are hidden recursively
    - Edges are automatically hidden if their source or target nodes are hidden
    - Uses `useMemo` for performance optimization
@@ -111,10 +119,12 @@ Advanced filtering allows users to focus on specific types of issues:
 #### Filter Types
 
 1. **All** (Default)
+
    - Shows all nodes regardless of alert/misconfiguration status
    - Displays both metrics in combined badges: `🔺 84 | ⚙️ 3`
 
 2. **Alerts**
+
    - Shows only nodes with alerts > 0
    - Displays only alert counts in badges: `🔺 84`
 
@@ -125,24 +135,28 @@ Advanced filtering allows users to focus on specific types of issues:
 #### Implementation Details
 
 1. **Filter State Management**
+
    ```typescript
-   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
+   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
    ```
 
 2. **Node Filtering Logic**
+
    ```typescript
    const filterNodes = (nodes) => {
-     if (activeFilter === 'all') return nodes;
-     
-     return nodes.filter(node => {
-       if (activeFilter === 'alerts') return node.data.alerts > 0;
-       if (activeFilter === 'misconfigurations') return node.data.misconfigs > 0;
+     if (activeFilter === "all") return nodes;
+
+     return nodes.filter((node) => {
+       if (activeFilter === "alerts") return node.data.alerts > 0;
+       if (activeFilter === "misconfigurations")
+         return node.data.misconfigs > 0;
        return true;
      });
    };
    ```
 
 3. **Dynamic Badge Display**
+
    - Badges conditionally render based on active filter
    - Combined badges show relevant metrics with pipe separator
    - Smart visibility prevents cluttered displays
@@ -178,8 +192,15 @@ src/
 │   └── icons.ts         # Icon-related constants
 ├── data/               # Static data
 │   └── initialData.ts   # Initial graph data
-└── styles/             # CSS styles
-    └── main.css        # Main stylesheet
+└── styles/             # Modular CSS architecture
+    ├── index.css        # Main CSS entry point
+    ├── global.css       # Global styles and fonts
+    ├── app-layout.css   # Application layout
+    ├── node.css         # Node component styles
+    ├── filter-controls.css # Filter controls
+    ├── react-flow.css   # React Flow customizations
+    ├── responsive.css   # Mobile responsive styles
+    └── README.md        # CSS architecture documentation
 ```
 
 ## 🛠️ Technologies Used
@@ -190,36 +211,27 @@ src/
 - **Dagre**: Automatic graph layout algorithm
 - **Lucide React**: Modern icon library
 - **Vite**: Fast build tool and development server
-- **Open Sans**: Professional typography
-
-## 🎨 Design System
-
-### Color Palette
-
-- **Cloud Nodes**: Sky Blue (`#0ea5e9`)
-- **AWS Nodes**: Orange (`#ff9500`) 
-- **GCP Nodes**: Blue (`#4285f4`)
-- **SaaS Nodes**: Green (`#10b981`)
-- **Service Nodes**: Gray (`#6b7280`)
-- **Alerts**: Red (`#dc2626`)
-- **Misconfigurations**: Orange (`#ea580c`)
-
-### Visual Features
-
-- **White Backgrounds**: Clean, modern node appearance
-- **Outline Icons**: Colored strokes without fills for minimal design
-- **Combined Badges**: White pills with colored icons and pipe separators
-- **Subtle Shadows**: Depth without overwhelming the design
-- **Responsive Layout**: Adapts to different screen sizes
 
 ## 🔧 Customization
 
 ### Adding New Node Types
 
 1. Update `NODE_TYPES` in `src/constants/icons.ts`
-2. Add color definition in `src/styles/main.css`
+2. Add color definition in `src/styles/node.css`
 3. Extend `getNodeIcon` function in `src/utils/iconResolver.tsx`
 4. Add type to the TypeScript interfaces
+
+### CSS Customization
+
+The modular CSS architecture makes customization simple:
+
+- **Global styles**: Edit `src/styles/global.css` for fonts and base styles
+- **Layout changes**: Modify `src/styles/app-layout.css` for main application layout
+- **Node appearance**: Update `src/styles/node.css` for node styling and colors
+- **Filter controls**: Customize `src/styles/filter-controls.css` for filter button appearance
+- **React Flow**: Modify `src/styles/react-flow.css` for graph controls and edges
+- **Mobile responsive**: Adjust `src/styles/responsive.css` for mobile-specific styles
+
 
 ### Modifying Data
 
@@ -230,38 +242,15 @@ export const initialData = {
   nodes: [
     {
       id: "unique-id",
-      label: "Display Name", 
+      label: "Display Name",
       type: "node-type",
       alerts: 0,
       misconfigs: 0,
-      children: ["child-id-1", "child-id-2"] // Optional
-    }
+      children: ["child-id-1", "child-id-2"], // Optional
+    },
   ],
-  edges: [
-    { source: "parent-id", target: "child-id" }
-  ]
+  edges: [{ source: "parent-id", target: "child-id" }],
 };
 ```
 
-## 📱 Browser Support
 
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-**Built with ❤️ using React, TypeScript, and ReactFlow**

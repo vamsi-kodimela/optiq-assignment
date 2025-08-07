@@ -80,4 +80,39 @@
   .react-flow__panel.react-flow__panel-top.react-flow__panel-left {
     margin: 8px 0 0 8px;
   }
+  .react-flow__panel.react-flow__panel-bottom.react-flow__panel-left {
+    margin: 0 0 8px 8px;
+  }
+
+  /* Responsive data editor on mobile */
+  .data-editor {
+    min-width: 280px;
+    max-width: 90vw;
+  }
+
+  .data-editor-header {
+    padding: 8px 12px;
+  }
+
+  .editor-actions {
+    gap: 4px;
+  }
+
+  .editor-button {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  .data-editor-content {
+    padding: 12px;
+  }
+
+  .data-textarea {
+    min-height: 200px;
+    font-size: 12px;
+  }
+
+  .help-code {
+    font-size: 11px;
+  }
 }

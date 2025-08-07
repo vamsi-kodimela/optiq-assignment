@@ -8,12 +8,17 @@ import { MarkerType, applyNodeChanges } from 'reactflow';
 import dagre from 'dagre';
 
 import { initialData } from '../data/initialData';
-import type { FilterType, CustomNodeData, FilterStats, NodeData } from '../types';
+import type { FilterType, CustomNodeData, FilterStats, NodeData, EdgeData } from '../types';
+
+export interface GraphData {
+  nodes: NodeData[];
+  edges: EdgeData[];
+}
 
 const useGraphData = () => {
   // State for all nodes and edges (source of truth)
-  const [allNodes] = useState<NodeData[]>(initialData.nodes);
-  const [allEdges] = useState(initialData.edges);
+  const [allNodes, setAllNodes] = useState<NodeData[]>(initialData.nodes);
+  const [allEdges, setAllEdges] = useState<EdgeData[]>(initialData.edges);
   
   // State for collapsed node IDs
   const [collapsedNodeIds, setCollapsedNodeIds] = useState<string[]>([]);
@@ -196,6 +201,31 @@ const useGraphData = () => {
     setActiveFilter(filter);
   }, []);
 
+  // Handle data updates from editor
+  const updateGraphData = useCallback((newData: GraphData) => {
+    setAllNodes(newData.nodes);
+    setAllEdges(newData.edges);
+    // Reset positioned nodes to trigger re-layout
+    setPositionedNodes([]);
+    // Reset collapsed state when data changes
+    setCollapsedNodeIds([]);
+  }, []);
+
+  // Reset to initial data
+  const resetGraphData = useCallback(() => {
+    setAllNodes(initialData.nodes);
+    setAllEdges(initialData.edges);
+    setPositionedNodes([]);
+    setCollapsedNodeIds([]);
+    setActiveFilter('all');
+  }, []);
+
+  // Get current graph data
+  const getCurrentGraphData = useCallback((): GraphData => ({
+    nodes: allNodes,
+    edges: allEdges,
+  }), [allNodes, allEdges]);
+
   return {
     visibleNodes,
     visibleEdges,
@@ -204,6 +234,9 @@ const useGraphData = () => {
     activeFilter,
     onFilterChange: handleFilterChange,
     filterStats,
+    updateGraphData,
+    resetGraphData,
+    getCurrentGraphData,
   };
 };
 

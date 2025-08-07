@@ -11,3 +11,6 @@ export type {
   FilterControlsProps,
   FilterStats
 } from './node.types';
+
+// Re-export GraphData type from useGraphData hook
+export type { GraphData } from '../hooks/useGraphData';
