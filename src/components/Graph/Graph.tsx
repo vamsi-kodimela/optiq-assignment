@@ -5,16 +5,15 @@
 import ReactFlow, {
   Background,
   Controls,
-  MiniMap,
   ReactFlowProvider,
   useReactFlow,
   Panel,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+} from "reactflow";
+import "reactflow/dist/style.css";
 
-import CustomNode from '../nodes/CustomNode';
-import FilterControls from '../controls/FilterControls';
-import useGraphData from '../../hooks/useGraphData';
+import CustomNode from "../nodes/CustomNode";
+import FilterControls from "../controls/FilterControls";
+import useGraphData from "../../hooks/useGraphData";
 
 const nodeTypes = {
   custom: CustomNode,
@@ -22,25 +21,25 @@ const nodeTypes = {
 
 const FlowContent = () => {
   const { fitView } = useReactFlow();
-  const { 
-    visibleNodes, 
-    visibleEdges, 
-    createOnNodeClick, 
-    onNodesChange, 
-    activeFilter, 
-    onFilterChange, 
-    filterStats 
+  const {
+    visibleNodes,
+    visibleEdges,
+    createOnNodeClick,
+    onNodesChange,
+    activeFilter,
+    onFilterChange,
+    filterStats,
   } = useGraphData();
-  
+
   const handleFitView = () => {
-    fitView({ 
-      padding: 0.2, 
+    fitView({
+      padding: 0.2,
       duration: 500,
       maxZoom: 1.5,
-      minZoom: 0.1
+      minZoom: 0.1,
     });
   };
-  
+
   const onNodeClick = createOnNodeClick(handleFitView);
 
   return (
@@ -70,36 +69,20 @@ const FlowContent = () => {
       <Panel position="top-right">
         <Controls showInteractive={false} />
       </Panel>
-      <MiniMap
-        nodeStrokeColor={(n) => {
-          switch (n.data?.type) {
-            case 'cloud': return '#0ea5e9';
-            case 'aws': return '#ff9500';
-            case 'gcp': return '#4285f4';
-            case 'saas': return '#10b981';
-            case 'service': return '#6b7280';
-            default: return '#94a3b8';
-          }
-        }}
-        nodeColor={(n) => {
-          switch (n.data?.type) {
-            case 'cloud': return '#e0f2fe';
-            case 'aws': return '#fed7aa';
-            case 'gcp': return '#dbeafe';
-            case 'saas': return '#d1fae5';
-            case 'service': return '#f3f4f6';
-            default: return '#f8fafc';
-          }
-        }}
-        nodeBorderRadius={8}
-      />
     </ReactFlow>
   );
 };
 
 const Graph = () => {
   return (
-    <div style={{ width: '100%', height: '600px', position: 'relative', overflow: 'visible' }}>
+    <div
+      style={{
+        width: "100%",
+        height: "600px",
+        position: "relative",
+        overflow: "visible",
+      }}
+    >
       <ReactFlowProvider>
         <FlowContent />
       </ReactFlowProvider>

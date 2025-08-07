@@ -1,5 +1,5 @@
 import { Graph } from './components';
-import './styles/main.css';
+import './styles/index.css';
 
 function App() {
   return (

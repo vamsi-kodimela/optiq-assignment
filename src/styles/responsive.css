@@ -1,0 +1,93 @@
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 10px;
+  }
+
+  .app-title {
+    font-size: 24px;
+  }
+
+  .custom-node {
+    width: 50px;
+    height: 50px;
+  }
+
+  .node-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .floating-badge {
+    font-size: 10px;
+    padding: 3px 6px;
+    min-width: 24px;
+    gap: 2px;
+    border-radius: 12px;
+  }
+
+  .combined-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 14px;
+    top: -10px;
+  }
+
+  .combined-badge .badge-separator {
+    margin: 0 3px;
+  }
+
+  .alerts-badge {
+    top: -10px;
+    left: -12px;
+  }
+
+  .misconfigs-badge {
+    top: -10px;
+    right: -12px;
+  }
+
+  /* Even more minimal arrows on mobile */
+  .react-flow__arrowhead {
+    opacity: 0.6;
+    transform: scale(0.8);
+  }
+
+  /* Responsive controls on mobile */
+  .react-flow__controls {
+    padding: 3px;
+    gap: 1px;
+  }
+
+  .react-flow__controls-button {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    border-radius: 4px;
+  }
+
+  /* Responsive filter controls on mobile */
+  .filter-controls {
+    padding: 4px;
+    gap: 3px;
+  }
+
+  .filter-button {
+    min-width: 60px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 6px;
+  }
+
+  .filter-label {
+    font-size: 10px;
+  }
+
+  /* Smaller panel margins on mobile */
+  .react-flow__panel.react-flow__panel-top.react-flow__panel-right {
+    margin: 8px 8px 0 0;
+  }
+  .react-flow__panel.react-flow__panel-top.react-flow__panel-left {
+    margin: 8px 0 0 8px;
+  }
+}
