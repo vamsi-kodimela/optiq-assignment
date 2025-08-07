@@ -37,17 +37,7 @@
     margin: 0 3px;
   }
 
-  .alerts-badge {
-    top: -10px;
-    left: -12px;
-  }
-
-  .misconfigs-badge {
-    top: -10px;
-    right: -12px;
-  }
-
-  /* Even more minimal arrows on mobile */
+  /* Minimal arrows on mobile */
   .react-flow__arrowhead {
     opacity: 0.6;
     transform: scale(0.8);
