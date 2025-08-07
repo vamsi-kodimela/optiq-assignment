@@ -12,7 +12,7 @@ export const initialData = {
       id: "cloud", 
       label: "Multi-Cloud Infrastructure", 
       type: "cloud", 
-      alerts: 485, 
+      alerts: 385, 
       misconfigs: 32, 
       children: ["aws1", "aws2", "gcp", "saas"] 
     },
@@ -138,56 +138,13 @@ export const initialData = {
       misconfigs: 2 
     },
     
-    // SaaS Applications
+    // SaaS Applications (leaf node - no children)
     { 
       id: "saas", 
       label: "SaaS Applications", 
       type: "saas", 
       alerts: 87, 
-      misconfigs: 8, 
-      children: ["salesforce", "slack", "github", "datadog", "jira", "confluence"] 
-    },
-    { 
-      id: "salesforce", 
-      label: "Salesforce CRM", 
-      type: "saas", 
-      alerts: 28, 
-      misconfigs: 2 
-    },
-    { 
-      id: "slack", 
-      label: "Slack Workspace", 
-      type: "saas", 
-      alerts: 8, 
-      misconfigs: 1 
-    },
-    { 
-      id: "github", 
-      label: "GitHub Enterprise", 
-      type: "saas", 
-      alerts: 19, 
-      misconfigs: 2 
-    },
-    { 
-      id: "datadog", 
-      label: "Datadog Monitoring", 
-      type: "saas", 
-      alerts: 14, 
-      misconfigs: 1 
-    },
-    { 
-      id: "jira", 
-      label: "Jira Projects", 
-      type: "saas", 
-      alerts: 12, 
-      misconfigs: 1 
-    },
-    { 
-      id: "confluence", 
-      label: "Confluence Wiki", 
-      type: "saas", 
-      alerts: 6, 
-      misconfigs: 1 
+      misconfigs: 8 
     }
   ] as NodeData[],
   edges: [
@@ -214,14 +171,6 @@ export const initialData = {
     { source: "gcp", target: "dataflow" },
     { source: "gcp", target: "cloud-storage" },
     { source: "gcp", target: "pubsub" },
-    { source: "gcp", target: "cloud-sql" },
-    
-    // SaaS connections
-    { source: "saas", target: "salesforce" },
-    { source: "saas", target: "slack" },
-    { source: "saas", target: "github" },
-    { source: "saas", target: "datadog" },
-    { source: "saas", target: "jira" },
-    { source: "saas", target: "confluence" }
+    { source: "gcp", target: "cloud-sql" }
   ] as EdgeData[]
 };
